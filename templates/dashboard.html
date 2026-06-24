@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content-container">
+    <!-- Header Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">Platform Analytics & Insights</h1>
+        <p class="hero-subtitle">Real-time statistics on tobacco pest occurrences, infestation severity patterns, and AI model evaluation metrics.</p>
+    </section>
+
+    <!-- Key Metrics Grid -->
+    <div class="metrics-summary-grid">
+        <div class="glass-card metric-summary-card">
+            <div class="metric-icon-wrapper icon-blue">
+                <i class="fa-solid fa-file-invoice-paragraph"></i>
+            </div>
+            <div class="metric-details">
+                <span class="metric-label">Total Diagnoses</span>
+                <h3 id="stat-total-scans" class="metric-value">-</h3>
+            </div>
+        </div>
+
+        <div class="glass-card metric-summary-card">
+            <div class="metric-icon-wrapper icon-red">
+                <i class="fa-solid fa-bug"></i>
+            </div>
+            <div class="metric-details">
+                <span class="metric-label">Infestation Incidents</span>
+                <h3 id="stat-infestations" class="metric-value">-</h3>
+            </div>
+        </div>
+
+        <div class="glass-card metric-summary-card">
+            <div class="metric-icon-wrapper icon-green">
+                <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <div class="metric-details">
+                <span class="metric-label">Healthy Crops</span>
+                <h3 id="stat-healthy" class="metric-value">-</h3>
+            </div>
+        </div>
+
+        <div class="glass-card metric-summary-card">
+            <div class="metric-icon-wrapper icon-gold">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="metric-details">
+                <span class="metric-label">Average Confidence</span>
+                <h3 id="stat-confidence" class="metric-value">-</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Workspace Grid -->
+    <div class="charts-workspace-grid">
+        <!-- Chart 1: Pest Distribution -->
+        <div class="glass-card chart-card">
+            <h3 class="chart-title"><i class="fa-solid fa-chart-pie"></i> Pest Type Distribution</h3>
+            <div class="chart-container">
+                <canvas id="pestDistributionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Chart 2: Severity Breakdown -->
+        <div class="glass-card chart-card">
+            <h3 class="chart-title"><i class="fa-solid fa-chart-bar"></i> Infestation Severity Levels</h3>
+            <div class="chart-container">
+                <canvas id="severityBreakdownChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Chart 3: Scan Activity Trend -->
+        <div class="glass-card chart-card full-width-chart">
+            <h3 class="chart-title"><i class="fa-solid fa-chart-line"></i> Diagnostic Scan Activity Trends</h3>
+            <div class="chart-container-trend">
+                <canvas id="activityTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Performance Section -->
+    <div class="glass-card performance-card">
+        <h2 class="section-title"><i class="fa-solid fa-microchip"></i> Deep Learning Model Performance</h2>
+        <p class="section-subtitle">Below are the evaluation metrics for the MobileNetV2 CNN classifier computed on the validation dataset.</p>
+        
+        <div class="performance-grid">
+            <div class="performance-text-col">
+                <div class="accuracy-score-box">
+                    <span class="accuracy-label">Overall Accuracy</span>
+                    <h2 class="accuracy-value">{{ accuracy }}%</h2>
+                </div>
+                <div class="report-box">
+                    <h4>Model Evaluation Summary</h4>
+                    <ul>
+                        <li><strong>Base Model:</strong> MobileNetV2 (Transfer Learning)</li>
+                        <li><strong>Target Classes:</strong> 6 categories (Aphids, Budworm, Cutworms, Thrips, Whiteflies, Healthy)</li>
+                        <li><strong>Input Dimension:</strong> 224x224x3</li>
+                        <li><strong>Inference Latency:</strong> ~120ms (on standard CPU)</li>
+                        <li><strong>Severity Estimator:</strong> OpenCV HSV mask processing</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="performance-image-col">
+                <h4>Validation Confusion Matrix</h4>
+                <div class="confusion-matrix-wrapper">
+                    <!-- Check if static/confusion_matrix.png exists -->
+                    <img id="cm-image" src="{{ url_for('static', filename='confusion_matrix.png') }}" alt="Model Confusion Matrix" class="confusion-matrix-img" onerror="this.src='https://placehold.co/600x450/202620/ffffff?text=Run+ml/evaluate.py+to+generate+Confusion+Matrix'">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

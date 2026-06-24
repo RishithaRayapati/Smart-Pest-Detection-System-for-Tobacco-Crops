@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content-container">
+    <!-- Hero / Title Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">AI Tobacco Pest Diagnostics</h1>
+        <p class="hero-subtitle">Upload a close-up image of a tobacco crop leaf or plant to identify pests, estimate infestation severity, and get immediate treatment recommendations.</p>
+    </section>
+
+    <!-- Main Workspace Grid -->
+    <div class="diagnostics-grid">
+        <!-- Left Column: Upload and Preview Area -->
+        <div class="glass-card upload-card">
+            <h2 class="card-title"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Leaf Image</h2>
+            
+            <form id="upload-form" class="upload-form">
+                <div id="drop-zone" class="drop-zone">
+                    <input type="file" id="file-input" name="image" accept="image/*" class="file-input">
+                    <div class="drop-zone-content">
+                        <div class="upload-icon-wrapper">
+                            <i class="fa-solid fa-leaf upload-icon-leaf"></i>
+                            <i class="fa-solid fa-camera upload-icon-camera"></i>
+                        </div>
+                        <h3>Drag & drop your leaf image here</h3>
+                        <p class="file-limits">Supports JPG, JPEG, PNG, WEBP (Max 16MB)</p>
+                        <button type="button" class="btn-primary select-btn">Browse Files</button>
+                    </div>
+                    <div id="preview-container" class="preview-container hidden">
+                        <img id="image-preview" src="#" alt="Leaf Preview" class="image-preview">
+                        <button type="button" id="remove-btn" class="remove-btn" title="Remove image">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" id="analyze-btn" class="btn-primary analyze-btn disabled" disabled>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Analyze Crop Health
+                </button>
+            </form>
+        </div>
+
+        <!-- Right Column: Results Area -->
+        <div class="glass-card results-card">
+            <!-- Initial State: No results -->
+            <div id="results-placeholder" class="results-placeholder">
+                <div class="placeholder-icon">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                </div>
+                <h3>Diagnostic Report</h3>
+                <p>Upload and analyze an image to view the AI-generated pest report, severity statistics, and pest control guidelines.</p>
+            </div>
+
+            <!-- Loading State: Analyzing spinner/bars -->
+            <div id="analysis-loader" class="analysis-loader hidden">
+                <div class="dna-spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+                <h3>Running AI Diagnostics...</h3>
+                <p class="loader-status">Pre-processing image...</p>
+                <div class="analysis-progress-bar-container">
+                    <div id="analysis-progress-bar" class="analysis-progress-bar"></div>
+                </div>
+            </div>
+
+            <!-- Done State: Results Display -->
+            <div id="results-display" class="results-display hidden">
+                <div class="results-header">
+                    <div class="pest-badge-wrapper">
+                        <span id="result-pest-name" class="result-pest-name">Tobacco Budworm</span>
+                        <div class="badge-row">
+                            <span id="result-severity-badge" class="badge badge-high">High Severity</span>
+                            <span id="result-confidence-badge" class="badge badge-conf"><i class="fa-solid fa-shield-halved"></i> 94.2% Match</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-body">
+                    <!-- Progress Bar Representation -->
+                    <div class="metric-progress-wrapper">
+                        <div class="metric-label-row">
+                            <span>Inference Confidence</span>
+                            <span id="metric-conf-pct">94.2%</span>
+                        </div>
+                        <div class="metric-bar-bg">
+                            <div id="metric-bar-fill" class="metric-bar-fill" style="width: 94.2%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Symptoms & Causes -->
+                    <div class="info-section">
+                        <h3><i class="fa-solid fa-circle-info"></i> Observations</h3>
+                        <div class="info-grid">
+                            <div class="info-block">
+                                <span class="info-label">Observed Symptoms</span>
+                                <p id="result-symptoms" class="info-text">Chewed leaves, damaged crop crown, residue markings.</p>
+                            </div>
+                            <div class="info-block">
+                                <span class="info-label">Primary Causes</span>
+                                <p id="result-causes" class="info-text">Favorable dry weather conditions and inadequate local soil weeding.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pest Control Recommendations -->
+                    <div class="info-section recommendation-section">
+                        <h3><i class="fa-solid fa-kit-medical"></i> Pest Control Measures</h3>
+                        <div class="recs-grid">
+                            <div class="rec-card chemical-rec">
+                                <div class="rec-header">
+                                    <i class="fa-solid fa-flask"></i>
+                                    <span>Chemical Pesticide Recommendation</span>
+                                </div>
+                                <p id="result-chemical" class="rec-content">Spinosad or Chlorantraniliprole.</p>
+                                <span class="rec-warning"><i class="fa-solid fa-triangle-exclamation"></i> Follow dosage labels strictly.</span>
+                            </div>
+                            <div class="rec-card organic-rec">
+                                <div class="rec-header">
+                                    <i class="fa-solid fa-seedling"></i>
+                                    <span>Organic / Preventive Alternatives</span>
+                                </div>
+                                <p id="result-organic" class="rec-content">Bacillus thuringiensis (Bt) sprays or handpicking larvae.</p>
+                                <span class="rec-success"><i class="fa-solid fa-check-double"></i> Eco-friendly choice.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-footer">
+                    <button id="reset-btn" class="btn-secondary"><i class="fa-solid fa-rotate-left"></i> Analyze New Image</button>
+                    <a href="/history" class="btn-link"><i class="fa-solid fa-arrow-right-long"></i> View in Logs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

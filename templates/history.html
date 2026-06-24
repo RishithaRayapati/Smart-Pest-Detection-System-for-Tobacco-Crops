@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content-container">
+    <!-- Header Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">Crop Diagnostics History</h1>
+        <p class="hero-subtitle">Review historical pest diagnostic scans, check past severity details, and monitor records recorded in the database.</p>
+    </section>
+
+    <!-- Filters and Search Bar -->
+    <div class="glass-card filters-card">
+        <div class="filters-row">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search by pest name, severity or pesticide..." class="search-input">
+            </div>
+            
+            <div class="filter-dropdowns">
+                <select id="filter-pest" class="filter-select">
+                    <option value="">All Pest Types</option>
+                    <option value="Aphids">Aphids</option>
+                    <option value="Tobacco Budworm">Tobacco Budworm</option>
+                    <option value="Cutworms">Cutworms</option>
+                    <option value="Thrips">Thrips</option>
+                    <option value="Whiteflies">Whiteflies</option>
+                    <option value="Healthy Plant">Healthy Plant</option>
+                </select>
+
+                <select id="filter-severity" class="filter-select">
+                    <option value="">All Severities</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Log Table/Grid -->
+    <div class="glass-card logs-card">
+        <div class="table-responsive">
+            <table class="logs-table">
+                <thead>
+                    <tr>
+                        <th>Scan Preview</th>
+                        <th>Date & Time</th>
+                        <th>Detected Class</th>
+                        <th>Confidence</th>
+                        <th>Severity</th>
+                        <th>Key Treatment</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table-body">
+                    <!-- Loading state inside table -->
+                    <tr class="table-loading-row">
+                        <td colspan="7" class="text-center">
+                            <div class="spinner-small"></div> Loading database history log...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Empty State inside history card -->
+        <div id="history-empty" class="history-empty hidden">
+            <i class="fa-solid fa-folder-open empty-icon"></i>
+            <h3>No Diagnostic Records Found</h3>
+            <p>Adjust your search filters, or run a new leaf diagnosis to record scans here.</p>
+            <a href="/" class="btn-primary"><i class="fa-solid fa-plus"></i> Run New Diagnosis</a>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div id="details-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content glass-card">
+        <button id="modal-close" class="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+        
+        <div class="modal-header">
+            <h2>Detailed Diagnostic Report</h2>
+            <p id="modal-date">Scanned on: 2026-06-24 12:43</p>
+        </div>
+        
+        <div class="modal-body-grid">
+            <div class="modal-image-col">
+                <img id="modal-image" src="#" alt="Leaf Image" class="modal-preview-img">
+            </div>
+            
+            <div class="modal-info-col">
+                <div class="modal-pest-header">
+                    <h3 id="modal-pest-name">Tobacco Budworm</h3>
+                    <div class="badge-row">
+                        <span id="modal-severity-badge" class="badge">Medium Severity</span>
+                        <span id="modal-confidence-badge" class="badge badge-conf">91.4% Match</span>
+                    </div>
+                </div>
+                
+                <hr class="modal-divider">
+                
+                <div class="modal-detail-block">
+                    <h4>Symptoms Observed</h4>
+                    <p id="modal-symptoms">Chewed leaves, damaged crop crown, residue markings.</p>
+                </div>
+                
+                <div class="modal-detail-block">
+                    <h4>Primary Causes</h4>
+                    <p id="modal-causes">Favorable dry weather conditions and inadequate local soil weeding.</p>
+                </div>
+
+                <div class="modal-detail-block">
+                    <h4>Chemical Pesticide Treatment</h4>
+                    <p id="modal-chemical" class="modal-highlight-pesticide">Spinosad or Chlorantraniliprole.</p>
+                </div>
+
+                <div class="modal-detail-block">
+                    <h4>Organic / Preventive Alternative</h4>
+                    <p id="modal-organic" class="modal-highlight-organic">Bacillus thuringiensis (Bt) sprays or handpicking larvae.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
